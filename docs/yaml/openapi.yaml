@@ -1,0 +1,195 @@
+openapi: 3.0.0
+info:
+  title: Lab8
+  version: 1.0.0
+  description: This API allows CRUD operations on users and articles.
+
+servers:
+  - url: http://localhost:3000
+    description: Local development server
+
+paths:
+  /users:
+    get:
+      summary: Get all users
+      responses:
+        '200':
+          description: A list of all users
+    post:
+      summary: Create a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: User created
+        '400':
+          description: Validation failed
+
+  /users/{id}:
+    get:
+      summary: Get a user by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: User found
+        '404':
+          description: User not found
+    put:
+      summary: Update a user by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: User updated
+        '400':
+          description: Validation failed
+    delete:
+      summary: Delete a user by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: User deleted
+
+  /articles:
+    get:
+      summary: Get all articles
+      responses:
+        '200':
+          description: A list of all articles
+    post:
+      summary: Create a new article
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Article'
+      responses:
+        '201':
+          description: Article created
+        '400':
+          description: Validation failed
+
+  /articles/{id}:
+    get:
+      summary: Get an article by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Article found
+        '404':
+          description: Article not found
+    put:
+      summary: Update an article by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Article'
+      responses:
+        '200':
+          description: Article updated
+        '400':
+          description: Validation failed
+    delete:
+      summary: Delete an article by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Article deleted
+
+components:
+  schemas:
+    User:
+      type: object
+      required:
+        - firstname
+        - lastname
+        - username
+        - password
+        - passwordsalt
+        - email
+      properties:
+        firstname:
+          type: string
+        lastname:
+          type: string
+        username:
+          type: string
+        password:
+          type: string
+        passwordsalt:
+          type: string
+        email:
+          type: string
+          format: email
+        about:
+          type: string
+        avatarurl:
+          type: string
+          format: uri
+
+    Article:
+      type: object
+      required:
+        - title
+        - alltext
+        - summary
+        - imageurl
+        - published
+        - authorid
+      properties:
+        title:
+          type: string
+        alltext:
+          type: string
+        summary:
+          type: string
+        imageurl:
+          type: string
+          format: uri
+        published:
+          type: boolean
+        authorid:
+          type: integer
